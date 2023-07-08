@@ -1,123 +1,120 @@
 import Phaser from "phaser";
-import background from "../assets/background.png";
-import ground from "../assets/ground.png";
-import player from "../assets/player.png";
-const AssetKeys = {
-  BACKGROUND: "background",
-  GROUND: "ground",
-  PLAYER: "player",
-};
+import {
+  addBackground,
+  createPlatform,
+  createPlayer,
+} from "./components/create";
+import { playerUpdate } from "./components/update";
+import SceneKeys from "./components/constants/sceneKeys";
 
 export default class FirstGame extends Phaser.Scene {
+  // we need private fields for variables that are used across multiple functions
   private bg!: Phaser.GameObjects.TileSprite;
   private player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody | undefined;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
+  private jumpKey: Phaser.Input.Keyboard.Key | undefined;
+  private playerCollidedPosition = 0;
+  private generatedPlatforms!: Phaser.Physics.Arcade.StaticGroup;
 
   constructor() {
-    super({ key: "Game" });
-  }
-
-  preload(): void {
-    this.load.image(AssetKeys.BACKGROUND, background);
-    this.load.image(AssetKeys.GROUND, ground);
-    this.load.image(AssetKeys.PLAYER, player);
-
-    //to load spritesheet
-    // this.load.spritesheet("nameofsheet", "locationofsheet", {
-    //   frameWidth: 32, frameHeight: 48 //frameWidth of each frame of sprite sheet
-    // })
+    super({ key: SceneKeys.Game });
   }
 
   create(): void {
-    const { width, height } = this.scale;
-    // Create game objects
-    this.bg = this.add
-      .tileSprite(0, 0, width, height, AssetKeys.BACKGROUND)
-      .setScale(2);
-    //player props
+    this.playerCollidedPosition = this.game.scale.height;
+    this.bg = addBackground(this);
 
-    const platforms = this.createPlatforms();
+    const platforms = createPlatform(this);
 
-    this.player = this.createPlayer();
+    this.player = createPlayer(this);
 
-    this.physics.add.collider(this.player, platforms);
+    // Set the camera to follow the player
+    this.cameras.main.startFollow(this.player);
+    // add collider btw player and platforms
+    this.physics.add.collider(
+      this.player,
+      platforms,
+      this.collisionHandler,
+      undefined,
+      this
+    );
 
+    // add a cursor to the game
     this.cursors = this.input.keyboard?.createCursorKeys();
-    // const particles = this.add.particles(0, 0, "red", {
-    //   speed: 100,
-    //   scale: { start: 1, end: 0 },
-    //   blendMode: "ADD",
+
+    //adding keys
+    this.jumpKey = this.input.keyboard?.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
+
+    this.generatedPlatforms = this.physics.add.staticGroup();
+
+    // create a platform, when player touches the previous platform
+  }
+
+  collisionHandler(player: any, _platform: any) {
+    // create a platform on first collide
+    const position = player.body.y;
+    // return if platform y is
+    if (_platform.body.y < position) {
+      console.log(_platform.body.y + 20, position);
+      return;
+    }
+    if (this.playerCollidedPosition > position) {
+      //create a platform at random x direction
+      const y = position - 150;
+
+      const newPlatform1 = this.createARandomizedPlatform(y);
+      // const newPlatform2 = this.createARandomizedPlatform(y);
+      this.generatedPlatforms.add(newPlatform1);
+      // this.generatedPlatforms.add(newPlatform2);
+      // update the position
+
+      this.physics.add.collider(
+        player,
+        newPlatform1,
+        this.collisionHandler,
+        undefined,
+        this
+      );
+
+      // this.physics.add.collider(
+      //   player,
+      //   newPlatform2,
+      //   this.collisionHandler,
+      //   undefined,
+      //   this
+      // );
+      this.playerCollidedPosition = position;
+    }
+  }
+
+  createARandomizedPlatform(y: number) {
+    const minWidth = 100;
+    const maxWidth = 300;
+    const _width = Phaser.Math.Between(minWidth, maxWidth);
+    const height = 20;
+    const { width } = this.scale;
+    const x = Phaser.Math.Between(0, width) - _width;
+    const platform = this.add
+      .rectangle(x, y, _width, height, 0x00ff00)
+      .setOrigin(0.5, 0); // origin middle top
+
+    // this.tweens.add({
+    //   targets: platform,
+    //   x: 0,
+    //   ease: "Linear",
+    //   duration: 2000,
+    //   yoyo: true, // Repeat the tween in reverse
+    //   repeat: -1, // Repeat indefinitely
     // });
 
-    // particles.startFollow(player);
+    return platform;
   }
 
   //every frame update
   update(time: number, delta: number) {
     // on each update the image will move
-    this.bg.tilePositionX += 0.3;
-    this.updatePlayerPosition();
-  }
-
-  createPlatforms() {
-    const platforms = this.physics.add.staticGroup();
-    platforms.create(300, 376, "ground").setScale(0.5).refreshBody();
-
-    platforms.create(350, 280, "ground").setScale(0.2);
-    platforms.create(150, 220, "ground").setScale(0.2);
-    platforms.create(450, 120, "ground").setScale(0.3);
-
-    return platforms;
-  }
-  createPlayer() {
-    const player = this.physics.add
-      .sprite(100, 350, AssetKeys.PLAYER)
-      .setScale(0.3)
-      .setBounce(0.5)
-      .setCollideWorldBounds(true);
-
-    //player sprite
-    this.anims.create({
-      key: "left",
-      // frames: this.anims.generateFrameNumbers(AssetKeys.PLAYER, {
-      //   start: 0,
-      //   end: 3,
-      // }),
-      frames: [{ key: AssetKeys.PLAYER, frame: 0 }],
-
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "turn",
-      frames: [{ key: AssetKeys.PLAYER, frame: 0 }],
-      frameRate: 20,
-    });
-
-    this.anims.create({
-      key: "right",
-      frames: [{ key: AssetKeys.PLAYER, frame: 0 }],
-      frameRate: 10,
-      repeat: -1,
-    });
-    return player;
-  }
-
-  updatePlayerPosition() {
-    if (this.cursors?.left.isDown) {
-      this.player?.setVelocityX(-160);
-      // this.player?.anims.play("left", true);
-    } else if (this.cursors?.right.isDown) {
-      this.player?.setVelocityX(160);
-      // this.player?.anims.play("left", true);
-    } else {
-      // if vilocity isnot set to zero then player will keep moving
-      this.player?.setVelocityX(0);
-    }
-    console.log(this.player?.body.touching.down);
-    if (this.cursors?.up.isDown) {
-      this.player?.setVelocityY(-330);
-    }
+    playerUpdate(this);
   }
 }
