@@ -39,7 +39,7 @@ export default class RockerMouse extends Phaser.GameObjects.Container {
 
     // adjusting the physical body with the game objects position created above
     const body = this.body as Phaser.Physics.Arcade.Body;
-    body.setSize(this.mouse.width, this.mouse.height * 1.7);
+    body.setSize(this.mouse.width, this.mouse.height * 1.45);
     body.setOffset(this.mouse.width * -0.5, -this.mouse.height - 50);
     //init cursors
     this.cursors = scene.input.keyboard!.createCursorKeys();
