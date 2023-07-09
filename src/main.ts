@@ -3,7 +3,8 @@
 // @ts-ignore
 import { SceneDebug } from "phaser";
 import Preloader from "./mouseRunner/windows/Preloader";
-import MouseRunner from "./mouseRunner";
+import MouseRunner from "./mouseRunner/scenes/Game.Scene";
+import GameOver from "./mouseRunner/scenes/GameOver.Scene";
 const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   pixelArt: true,
@@ -15,12 +16,12 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 100 },
+      gravity: { y: 400 },
       debug: true,
     },
   },
   // backgroundColor: "#5c5b5b",
-  scene: [Preloader, MouseRunner],
+  scene: [Preloader, MouseRunner, GameOver],
 };
 
 const game = new Phaser.Game(gameConfig);

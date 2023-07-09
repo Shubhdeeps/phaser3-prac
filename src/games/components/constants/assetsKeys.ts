@@ -9,5 +9,6 @@ enum AssetKeys {
   BOOKCASE_2 = "bookcase-2",
   LASER_MIDDLE = "laser-middle",
   LASER_END = "laser-end",
+  COINS = "coins",
 }
 export default AssetKeys;

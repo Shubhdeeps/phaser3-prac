@@ -12,6 +12,7 @@ import bookcase1 from "../assets/background/object_bookcase1.png";
 import bookcase2 from "../assets/background/object_bookcase2.png";
 import laserMiddle from "../assets/background/object_laser.png";
 import laserEnd from "../assets/background/object_laser_end.png";
+import coins from "../assets/background/object_coin.png";
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -26,54 +27,12 @@ export default class Preloader extends Phaser.Scene {
     this.load.image(AssetKeys.BOOKCASE_2, bookcase2);
     this.load.image(AssetKeys.LASER_END, laserEnd);
     this.load.image(AssetKeys.LASER_MIDDLE, laserMiddle);
+    this.load.image(AssetKeys.COINS, coins);
+
     this.load.atlas(AssetKeys.PLAYER, player, playerJSON);
   }
 
   create() {
-    this.anims.create({
-      key: RocketMouseAnimationKeys.RUN,
-      frames: this.anims.generateFrameNames(AssetKeys.PLAYER, {
-        start: 1,
-        end: 4,
-        prefix: "rocketmouse_run", // prefix name in json file
-        zeroPad: 2,
-        suffix: ".png",
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: RocketMouseAnimationKeys.FLAME,
-      frames: this.anims.generateFrameNames(AssetKeys.PLAYER, {
-        start: 1,
-        end: 2,
-        prefix: "flame", // prefix name in json file
-        suffix: ".png",
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: RocketMouseAnimationKeys.FALL,
-      frames: [
-        {
-          key: AssetKeys.PLAYER,
-          frame: "rocketmouse_fall01.png",
-        },
-      ],
-    });
-
-    this.anims.create({
-      key: RocketMouseAnimationKeys.FLY,
-      frames: [
-        {
-          key: AssetKeys.PLAYER,
-          frame: "flying.png",
-        },
-      ],
-    });
     this.scene.start(SceneKeys.Game);
   }
 }
