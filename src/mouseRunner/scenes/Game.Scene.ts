@@ -1,11 +1,13 @@
 // @ts-nocheck
 import Phaser from "phaser";
 import SceneKeys from "../constants/SceneKeys";
-import AssetKeys from "../../games/components/constants/assetsKeys";
+import AssetKeys from "../constants/assetsKeys";
 import RockerMouse from "../game/RocketMouse";
 import LaserObstacle from "../game/LaserObstacle";
 import EventDispatcher from "../event/EventDispatcher";
 import { updateDataToRealTime } from "../../firebase/updateDataToRealtime";
+import { auth } from "../../firebase/firebaseConfig";
+import { usernames } from "../../html/usernames";
 
 //page 84
 export default class MouseRunner extends Phaser.Scene {
@@ -18,6 +20,7 @@ export default class MouseRunner extends Phaser.Scene {
   private laserObstacle!: LaserObstacle;
   private coins!: Phaser.Physics.Arcade.StaticGroup;
   private scoreLabel!: Phaser.GameObjects.Text;
+  private usernameLabel!: Phaser.GameObjects.Text;
   private score = 0;
   private mouse!: RockerMouse;
   constructor() {
@@ -28,6 +31,7 @@ export default class MouseRunner extends Phaser.Scene {
   //this method is called before preload
   init() {
     this.score = 0;
+    auth.signInAnonymously();
   }
   create(): void {
     const { width, height } = this.scale;
@@ -130,9 +134,26 @@ export default class MouseRunner extends Phaser.Scene {
         padding: { left: 15, right: 15, top: 10, bottom: 10 },
       })
       .setScrollFactor(0);
+
+    //username
+    this.usernameLabel = this.add
+      .text(160, 10, `Welcome, ${this.username}`, {
+        fontSize: "24px",
+        color: "#080808",
+        backgroundColor: "#F8E71C",
+        shadow: { fill: true, blur: 0, offsetY: 0 },
+        padding: { left: 15, right: 15, top: 10, bottom: 10 },
+      })
+      .setScrollFactor(0);
   }
 
   update(time: number, delta: number): void {
+    if (!this.username) {
+      const displayName = auth.currentUser?.displayName;
+      if (displayName) {
+        this.usernameLabel.text = `welcome, ${displayName}`;
+      }
+    }
     // the background will scroll in x direction along with camera
     this.background.setTilePosition(this.cameras.main.scrollX);
     this.wrapMouseHole();

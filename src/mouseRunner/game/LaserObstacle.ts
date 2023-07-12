@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import AssetKeys from "../../games/components/constants/assetsKeys";
+import AssetKeys from "../constants/assetsKeys";
 
 export default class LaserObstacle extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, x: number, y: number) {

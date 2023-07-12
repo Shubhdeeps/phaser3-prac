@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import SceneKeys from "../constants/SceneKeys";
-import AssetKeys from "../../games/components/constants/assetsKeys";
+import AssetKeys from "../constants/assetsKeys";
 import background from "../assets/background/bg_repeat_340x640.png";
 import player from "../assets/player/player.png";
 import playerJSON from "../assets/player/player.json";

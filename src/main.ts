@@ -2,9 +2,11 @@
 // import Preload from "./games/components/preload";
 // @ts-nocheck
 import "./style.css";
+import "./html";
 import Preloader from "./mouseRunner/windows/Preloader";
 import MouseRunner from "./mouseRunner/scenes/Game.Scene";
 import GameOver from "./mouseRunner/scenes/GameOver.Scene";
+import GameStart from "./mouseRunner/scenes/GameStart.Scene";
 const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   pixelArt: true,
@@ -17,7 +19,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     default: "arcade",
     arcade: {
       gravity: { y: 400 },
-      debug: true,
+      debug: false,
     },
   },
   // backgroundColor: "#5c5b5b",

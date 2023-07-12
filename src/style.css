@@ -11,6 +11,80 @@ body {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+  flex-direction: column-reverse;
 }
+
 canvas {
+  width: 800px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+table th {
+  background-color: #00bac7;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+table tr:nth-child(even) td {
+  background-color: #f2f2f2;
+}
+
+table tr:hover td {
+  background-color: #ffedcc;
+}
+
+table td {
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+
+.input_field {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #272727e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input_field input {
+  width: 300px;
+  height: 50px;
+  border-radius: 25px;
+  padding: 0px 15px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.input_field input:focus {
+  border: none;
+  outline: none;
+}
+
+#hidden {
+  opacity: 0;
 }

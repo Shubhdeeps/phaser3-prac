@@ -1,6 +1,6 @@
 // @ts-nocheck
 import Phaser from "phaser";
-import AssetKeys from "../../games/components/constants/assetsKeys";
+import AssetKeys from "../constants/assetsKeys";
 import RocketMouseAnimationKeys from "../constants/RocketMouseAnimatios";
 
 enum MouseState {
