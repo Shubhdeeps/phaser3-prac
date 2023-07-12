@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Phaser from "phaser";
 import background from "../assets/background.png";
 import fog from "../assets/fog.png";

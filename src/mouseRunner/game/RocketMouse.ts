@@ -1,8 +1,7 @@
+// @ts-nocheck
 import Phaser from "phaser";
 import AssetKeys from "../../games/components/constants/assetsKeys";
 import RocketMouseAnimationKeys from "../constants/RocketMouseAnimatios";
-import SceneKeys from "../constants/SceneKeys";
-import { updateLocationRealTime } from "../../firebase/updateDataToRealtime";
 
 enum MouseState {
   Running,

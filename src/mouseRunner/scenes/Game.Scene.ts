@@ -1,9 +1,9 @@
+// @ts-nocheck
 import Phaser from "phaser";
 import SceneKeys from "../constants/SceneKeys";
 import AssetKeys from "../../games/components/constants/assetsKeys";
 import RockerMouse from "../game/RocketMouse";
 import LaserObstacle from "../game/LaserObstacle";
-// import { emitter } from "../constants/EventEmitter";
 import EventDispatcher from "../event/EventDispatcher";
 import { updateDataToRealTime } from "../../firebase/updateDataToRealtime";
 

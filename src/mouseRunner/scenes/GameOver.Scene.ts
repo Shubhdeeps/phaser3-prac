@@ -8,7 +8,7 @@ export default class GameOver extends Phaser.Scene {
     super(SceneKeys.GameOver);
   }
   create() {
-    const { width, height } = this.scale;
+    const { width } = this.scale;
     const x = width * 0.5;
     const y = width * 0.5;
 

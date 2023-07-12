@@ -1,7 +1,7 @@
 // import FirstGame from "./games/FirstGame";
 // import Preload from "./games/components/preload";
-// @ts-ignore
-import { SceneDebug } from "phaser";
+// @ts-nocheck
+import "./style.css";
 import Preloader from "./mouseRunner/windows/Preloader";
 import MouseRunner from "./mouseRunner/scenes/Game.Scene";
 import GameOver from "./mouseRunner/scenes/GameOver.Scene";

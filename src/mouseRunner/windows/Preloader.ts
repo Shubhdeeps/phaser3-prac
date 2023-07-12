@@ -4,7 +4,6 @@ import AssetKeys from "../../games/components/constants/assetsKeys";
 import background from "../assets/background/bg_repeat_340x640.png";
 import player from "../assets/player/player.png";
 import playerJSON from "../assets/player/player.json";
-import RocketMouseAnimationKeys from "../constants/RocketMouseAnimatios";
 import mouseHole from "../assets/background/object_mousehole.png";
 import window1 from "../assets/background/object_window1.png";
 import window2 from "../assets/background/object_window2.png";
